@@ -127,8 +127,19 @@ const Home: NextPage = () => {
 
     // Create an event handler function for when someone sends
     // us a new memo.
-    const onNewMemo = (memo: Memo) => {
-      console.log("Memo received: ", memo);
+    const onNewMemo = (
+      from: any,
+      timestamp: object,
+      name: any,
+      message: any
+    ) => {
+      let memo: Memo = {
+        from,
+        timestamp,
+        name,
+        message,
+      };
+      console.log("Memo received: ", from, timestamp, name, message);
       setMemos((prevState: Memo[]) => [...prevState, memo]);
     };
 
@@ -214,9 +225,7 @@ const Home: NextPage = () => {
                   margin: "5px",
                 }}
               >
-                <p style={{ fontWeight: "bold" }}>
-                  &quot; {memo.message} &quot;
-                </p>
+                <p style={{ fontWeight: "bold" }}>&quot;{memo.message}&quot;</p>
                 <p>
                   From: {memo.name} at{" "}
                   {new Date(memo.timestamp * 1000).toString()}

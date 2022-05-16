@@ -1,6 +1,6 @@
 export interface Memo {
   from: string;
-  timestamp: number;
+  timestamp: object;
   name: string;
   message: string;
 }
