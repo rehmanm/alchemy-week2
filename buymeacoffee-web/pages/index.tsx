@@ -129,7 +129,7 @@ const Home: NextPage = () => {
     // us a new memo.
     const onNewMemo = (
       from: any,
-      timestamp: object,
+      timestamp: number,
       name: any,
       message: any
     ) => {
