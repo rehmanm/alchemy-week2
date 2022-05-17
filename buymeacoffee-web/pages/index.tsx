@@ -6,6 +6,7 @@ import {
   useState
 } from 'react';
 
+import { CoffeeSizes } from '../models/coffee_size';
 import { Memo } from '../models/memo';
 import styles from '../styles/Home.module.css';
 import abi from '../utils/BuyMeACoffee.json';
@@ -20,6 +21,7 @@ const Home: NextPage = () => {
   const [message, setMessage] = useState("");
   const [memos, setMemos] = useState<Memo[]>([]);
   const [loading, setLoading] = useState(false);
+  const [coffeeSize, setCoffeeSize] = useState(CoffeeSizes[0].value);
 
   const OnNameChange = (event: any) => {
     setName(event.target.value);
@@ -27,6 +29,10 @@ const Home: NextPage = () => {
 
   const OnMessageChange = (event: any) => {
     setMessage(event.target.value);
+  };
+
+  const OnCoffeeSizeChange = (event: any) => {
+    setCoffeeSize(event.target.value);
   };
 
   const isWalletConnected = async () => {
@@ -74,7 +80,7 @@ const Home: NextPage = () => {
         const coffeeTxn = await buyMeACoffee.buyCoffee(
           name ? name : "anon",
           message ? message : "Enjoy your coffee",
-          { value: ethers.utils.parseEther("0.001") }
+          { value: ethers.utils.parseEther(coffeeSize) }
         );
 
         await coffeeTxn.wait();
@@ -197,8 +203,19 @@ const Home: NextPage = () => {
                   value={message}
                 ></textarea>
               </div>
+              <div className="formgroup">
+                <label>Coffee Size</label>
+                <br />
+                <select onChange={OnCoffeeSizeChange}>
+                  {CoffeeSizes.map((coffeeSize, idx) => (
+                    <option value={coffeeSize.value} key={idx}>
+                      {coffeeSize.size}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <button type="button" onClick={buyCoffee}>
-                Send 1 coffee for 0.001 ETH
+                Send 1 coffee for {coffeeSize} ETH
               </button>
               {loading && (
                 <div className="spinner">
